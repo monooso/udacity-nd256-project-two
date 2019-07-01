@@ -30,6 +30,7 @@ class LinkedList:
 
         :return: A list of values.
         """
+
         def recurse(node, values):
             if node is None:
                 return values
@@ -103,5 +104,11 @@ assert ['a', 'b', 'd'] == list_b.values()
 assert ['e', 'f'] == list_c.values()
 
 assert ['a', 'b', 'c', 'd'] == sorted(union(list_a, list_b).values())
+assert ['a', 'b', 'c', 'e', 'f'] == sorted(union(list_a, list_c).values())
+assert ['a', 'b', 'd', 'e', 'f'] == sorted(union(list_b, list_c).values())
+
 assert ['a', 'b'] == sorted(intersection(list_a, list_b).values())
+assert [] == intersection(list_a, list_c).values()
+assert [] == intersection(list_b, list_c).values()
+
 assert [] == intersection(list_a, list_c).values()
