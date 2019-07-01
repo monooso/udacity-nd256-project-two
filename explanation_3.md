@@ -10,7 +10,7 @@ Encoding uses several data structures as part of encoding process:
 
 The process of converting the list of sorted nodes to a binary tree uses the sorted list [2], and a separate queue to store the "combined" nodes. Using this approach, the time complexity for building a Huffman tree from a list of nodes sorted by frequency is `O(n)`. The alternative approach of using a single queue, which is sorted every time two nodes are combined, takes `O(n log n)`.
 
-It should be noted, however, that the list still needs to be sorted once, using Python's built-in `sorted` function. This has a time complexity of `O(log n)`.
+It should be noted, however, that the list still needs to be sorted once, using Python's built-in `sorted` function. This has a time complexity of `O(n log n)`.
 
 Worst-case space efficiency is calculated as follows:
 
