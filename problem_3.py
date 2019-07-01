@@ -76,7 +76,15 @@ class HuffmanEncoder(object):
 
         def recurse(leaves, combined):
             if len(leaves) + len(combined) == 1:
-                return leaves[0] if len(leaves) else combined[0]
+                if len(combined) == 0:
+                    # Single-item tree. This seems very inelegant.
+                    node = leaves.popleft()
+                    root = Node(None, node.frequency)
+                    root.left_child = node
+                    combined.append(root)
+                    return recurse(leaves, combined)
+                else:
+                    return combined.popleft()
 
             # Retrieve the two lowest-frequency nodes.
             leaves, combined, node_a = HuffmanEncoder._dequeue_lowest_frequency_node(leaves, combined)
@@ -213,6 +221,7 @@ assert HuffmanEncoder._build_frequency_map('a') == {'a': 1}
 assert HuffmanEncoder._build_frequency_map('aa') == {'a': 2}
 assert HuffmanEncoder._build_frequency_map('abab') == {'a': 2, 'b': 2}
 assert HuffmanEncoder._build_frequency_map('Aa') == {'A': 1, 'a': 1}
+assert HuffmanEncoder._build_frequency_map('AAAAAA') == {'A': 6}
 
 
 # ------------------------------
@@ -285,6 +294,15 @@ assert result.right_child.left_child.frequency is 1
 assert result.right_child.right_child.character is 'b'
 assert result.right_child.right_child.frequency is 1
 
+# Single item tree
+result = HuffmanEncoder._build_tree([Node('A', 6)])
+
+assert isinstance(result, Node)
+assert result.character is None
+assert result.frequency is 6
+assert result.left_child.character is 'A'
+assert result.left_child.frequency is 6
+
 # ------------------------------
 # Test build_character_map
 # ------------------------------
@@ -306,6 +324,14 @@ assert tree.right_child.right_child.character == 'b'
 
 decoded = HuffmanDecoder.decode(encoded, tree)
 assert decoded == 'cabc'
+
+# Test will a string of identical characters
+encoded, tree = HuffmanEncoder.encode('AAAAAAAA')
+assert encoded == '00000000'
+assert tree.left_child.character == 'A'
+
+decoded = HuffmanDecoder.decode(encoded, tree)
+assert decoded == 'AAAAAAAA'
 
 # =====================================================================
 
