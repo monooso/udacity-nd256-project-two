@@ -76,7 +76,13 @@ def intersection(list_a, list_b):
     """
     set_a = set(list_a.values())
     set_b = set(list_b.values())
-    return make_linked_list(set_a.intersection(set_b))
+
+    # Ensure we loop over the shorter set.
+    if len(set_a) > len(set_b):
+        set_a, set_b = set_b, set_a
+
+    common = [x for x in set_a if x in set_b]
+    return make_linked_list(common)
 
 
 # =====================================================================
