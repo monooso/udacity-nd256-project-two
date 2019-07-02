@@ -30,6 +30,7 @@ class LinkedList:
 
         :return: A list of values.
         """
+
         def recurse(node, values):
             if node is None:
                 return values
@@ -75,10 +76,13 @@ def intersection(list_a, list_b):
     """
     set_a = set(list_a.values())
     set_b = set(list_b.values())
-    if len(set_b) < len(set_a):
-        set_a, set_b = (set_b, set_a)
-    common_values = [v for v in set_a if v in set_b]
-    return make_linked_list(common_values)
+
+    # Ensure we loop over the shorter set.
+    if len(set_a) > len(set_b):
+        set_a, set_b = set_b, set_a
+
+    common = [x for x in set_a if x in set_b]
+    return make_linked_list(common)
 
 
 # =====================================================================
@@ -103,5 +107,11 @@ assert ['a', 'b', 'd'] == list_b.values()
 assert ['e', 'f'] == list_c.values()
 
 assert ['a', 'b', 'c', 'd'] == sorted(union(list_a, list_b).values())
+assert ['a', 'b', 'c', 'e', 'f'] == sorted(union(list_a, list_c).values())
+assert ['a', 'b', 'd', 'e', 'f'] == sorted(union(list_b, list_c).values())
+
 assert ['a', 'b'] == sorted(intersection(list_a, list_b).values())
+assert [] == intersection(list_a, list_c).values()
+assert [] == intersection(list_b, list_c).values()
+
 assert [] == intersection(list_a, list_c).values()
