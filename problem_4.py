@@ -28,6 +28,8 @@ def is_user_in_group(user, group):
       user(str): user name/id
       group(class:Group): group to check user membership against
     """
+    if not isinstance(group, Group):
+        return False
     if user in group.get_users():
         return True
     if not group.get_groups():
@@ -61,3 +63,6 @@ department.add_user('john')
 company.add_group(department)
 assert is_user_in_group('john', company)
 assert not is_user_in_group('jane', company)
+
+# Non-existent group
+assert not is_user_in_group('john', None)
