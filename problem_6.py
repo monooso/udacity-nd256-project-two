@@ -114,4 +114,9 @@ assert ['a', 'b'] == sorted(intersection(list_a, list_b).values())
 assert [] == intersection(list_a, list_c).values()
 assert [] == intersection(list_b, list_c).values()
 
-assert [] == intersection(list_a, list_c).values()
+# Empty LinkedList tests
+assert ['a', 'b', 'c'] == sorted(union(list_a, LinkedList()).values())
+assert [] == intersection(list_a, LinkedList()).values()
+
+assert [] == union(LinkedList(), LinkedList()).values()
+assert [] == intersection(LinkedList(), LinkedList()).values()
