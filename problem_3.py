@@ -131,6 +131,9 @@ class HuffmanEncoder(object):
         :return: A tuple containing the encoded string, and the associated Huffman tree.
         """
 
+        if not len(string):
+            return None, None
+
         def recurse(string, encoding_map):
             if not string:
                 return ''
@@ -325,13 +328,18 @@ assert tree.right_child.right_child.character == 'b'
 decoded = HuffmanDecoder.decode(encoded, tree)
 assert decoded == 'cabc'
 
-# Test will a string of identical characters
+# Test with a string of identical characters
 encoded, tree = HuffmanEncoder.encode('AAAAAAAA')
 assert encoded == '00000000'
 assert tree.left_child.character == 'A'
 
 decoded = HuffmanDecoder.decode(encoded, tree)
 assert decoded == 'AAAAAAAA'
+
+# Test with an empty string
+encoded, tree = HuffmanEncoder.encode('')
+assert encoded is None
+assert tree is None
 
 # =====================================================================
 
