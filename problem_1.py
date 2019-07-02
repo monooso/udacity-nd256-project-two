@@ -1,6 +1,10 @@
 from collections import OrderedDict
 
 
+class ZeroLengthCache(Exception):
+    pass
+
+
 class LeastRecentlyUsedStack(object):
     def __init__(self):
         self.items = OrderedDict()
@@ -23,6 +27,9 @@ class LeastRecentlyUsedStack(object):
 
 class LeastRecentlyUsedCache(object):
     def __init__(self, capacity):
+        if capacity < 1:
+            raise ZeroLengthCache()
+
         self.capacity = capacity
         self.cache = dict()
         self.lru = LeastRecentlyUsedStack()
@@ -97,3 +104,18 @@ assert cache.get('z') == -1
 cache.set('f', 6)
 assert cache.get('f') == 6
 assert cache.get('c') == -1
+
+# Update a cached value
+cache = LeastRecentlyUsedCache(3)
+cache.set('a', 1)
+assert cache.get('a') == 1
+
+cache.set('a', 2)
+assert cache.get('a') == 2
+
+# Create a zero-length cache
+try:
+    cache = LeastRecentlyUsedCache(0)
+    assert False, 'Attempting to create a zero-length cache should raise a ZeroLengthCache exception'
+except ZeroLengthCache:
+    assert True
